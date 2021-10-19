@@ -5,7 +5,7 @@ const Credit = () => {
     <View>
       <TouchableOpacity
         onPress={() => {
-          Linking.openURL('https://github.com/EyalDelarea/');
+          Linking.openURL('https://github.com/EyalDelarea/HeartMe');
         }}
         style={{position: 'absolute', left: 0, right: 0, bottom: 0}}>
         <Text

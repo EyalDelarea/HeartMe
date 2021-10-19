@@ -7,20 +7,19 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-const Form = ({setResultValue, setTestname, resultValue, testName}) => {
+const Form = ({
+  setResultValue,
+  setTestname,
+  resultValue,
+  testName,
+  onSubmit,
+}) => {
   return (
-    <View>
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text
-          style={{
-            fontSize: 20,
-            fontWeight: 'bold',
-            marginBottom: 20,
-          }}>
-          Am I Okay?
-        </Text>
+    <View style={styles.contianer}>
+      <View style={{flex: 1}}>
+        <Text style={styles.header}>Am I Okay?</Text>
       </View>
-      <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{flex: 2, alignItems: 'center'}}>
         <TextInput
           style={styles.input}
           onChangeText={value => setTestname(value)}
@@ -32,30 +31,18 @@ const Form = ({setResultValue, setTestname, resultValue, testName}) => {
           style={styles.input}
           onChangeText={value => setResultValue(value)}
           value={resultValue}
+          keyboardType={'numeric'}
           placeholder={'Result Value'}
         />
 
         <TouchableOpacity
           title="Submit"
           onPress={() => {
-            ToastAndroid.showWithGravity(
-              `${testName},: ${resultValue}`,
-              ToastAndroid.SHORT,
-              ToastAndroid.BOTTOM,
-            );
+            onSubmit();
           }}
-          style={{
-            alignItems: 'center',
-            backgroundColor: '#ED4845',
-            borderRadius: 100,
-            width: 100,
-            padding: 10,
-            alignItems: 'center',
-          }}>
+          style={styles.submitButton}>
           <Text
-            style={{
-              fontWeight: 'bold',
-            }}>
+            style={{fontWeight:'bold'}}>
             Submit
           </Text>
         </TouchableOpacity>
@@ -74,5 +61,23 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 200,
     borderRadius: 30,
+    textAlign:'center'
+  },
+  header: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    
+  },
+  contianer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  submitButton: {
+    backgroundColor: '#ED4845',
+    borderRadius: 100,
+    width: 100,
+    padding: 10,
+    alignItems:'center'
   },
 });
