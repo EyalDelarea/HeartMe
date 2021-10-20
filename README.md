@@ -12,8 +12,12 @@ This simple app will fetch config file for HelloHeart S3 bucket and according do
 
 ### Objectives:
 - [x] Fetch config from the server.
-- [x] Display resulsts.
+- [x] Display results.
 - [x] Allow misspelled queries.
+- [x] Implemented tests for the example cases given.
+- [x] Validate user input with regrex `A-Z', 'a-z', '0-9' and '(),-:/!`.
+
+
 
 ### TODOS:
 - [ ] Improve search complexity.
