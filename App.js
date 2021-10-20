@@ -44,22 +44,51 @@ const App = () => {
     }
   };
 
+  /**
+   * Function to search the config file and return results to display
+   * NOTE !
+   * In order to be fogiving with user input,the strings are parsed to lowercase and remove "-" or ",".
+   * Time complexity should also be improved
+   * @param {*} name catagory nane
+   * @param {*} value user inputed value
+   * @returns
+   */
   const fetchDiagnosis = (name, value) => {
     var result;
     var catagory;
-    const nameArray = name.toLocaleLowerCase().replace('-', ' ').split(' ');
-    config.bloodTestConfig.forEach(el => {
-      const objName = el.name.toLowerCase();
-      nameArray.forEach(searchName => {
+
+    const data = config.bloodTestConfig;
+    //Parse user input
+    const nameArray = name
+      .toLocaleLowerCase()
+      .replace('-', ' ')
+      .replace(',', ' ')
+      .split(' ');
+
+    //iterate over our config
+    for (let i = 0; i < data.length; i++) {
+      const objName = data[i].name.toLocaleLowerCase();
+      //iterate over every user input string
+      for (let j = 0; j < nameArray.length; j++) {
+        const searchName = nameArray[j].toLocaleLowerCase();
+        if (searchName === '') continue;
         if (objName.includes(searchName)) {
-          catagory = el.name;
-          result = value > el.threshold;
+          catagory = data[i].name;
+          result = value < data[i].threshold;
+          //cholesterol alone isn't enough
+          if (searchName !== 'cholesterol') {
+            return {
+              result: result,
+              catagory: catagory,
+            };
+          }
         }
-      });
-    });
+      }
+    }
     if (result === undefined) {
       return 'Not Found';
     } else {
+      //Edge case -> When we only type cholesterol alone,return the first result we had.
       return {
         result: result,
         catagory: catagory,
