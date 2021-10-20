@@ -70,15 +70,8 @@ const App = () => {
       const res = await fetch(
         'https://s3.amazonaws.com/s3.helloheart.home.assignment/bloodTestConfig.json',
       );
-
       const json = await res.json();
-      //Converts config into hashmap
-      // const map = new Map();
-      // json.bloodTestConfig.map(el => {
-      //   map.set(el.name, el.threshold);
-      // });
       setConfig(json);
-
       setLoading(false);
     } catch (e) {
       setLoading(false);

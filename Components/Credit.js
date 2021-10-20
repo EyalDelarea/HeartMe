@@ -1,4 +1,4 @@
-import {Linking, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Linking, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 const Credit = () => {
   return (
@@ -22,4 +22,3 @@ const Credit = () => {
 
 export default Credit;
 
-const styles = StyleSheet.create({});
