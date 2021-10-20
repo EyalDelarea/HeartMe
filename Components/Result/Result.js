@@ -8,7 +8,7 @@ const Result = ({data}) => {
     <View>
       {data === 'Not Found' ? (
         <View style={styles.container}>
-          <Text>Unknown Catagory,Perhaps you mispelld?</Text>
+          <Text>Unknown Catagory</Text>
           <Image style={styles.image} source={notFound} />
         </View>
       ) : (
