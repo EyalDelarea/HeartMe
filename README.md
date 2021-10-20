@@ -1,7 +1,7 @@
 # Simple React Native App
 This simple app will fetch config file for HelloHeart S3 bucket and according do this will display results to blood tests inputed by the user
-### Install Instuctions:
-* `git clone`
+### Install Instructions:
+* `git clone the repo`
 * `npm install`
 * `npm start`
 * `npm run android`
