@@ -47,13 +47,15 @@ const App = () => {
   const fetchDiagnosis = (name, value) => {
     var result;
     var catagory;
+    const nameArray = name.toLocaleLowerCase().replace('-', ' ').split(' ');
     config.bloodTestConfig.forEach(el => {
       const objName = el.name.toLowerCase();
-      const searchName = name.toLocaleLowerCase();
-      if (objName.includes(searchName)) {
-        catagory = el.name;
-        result = value > el.threshold;
-      }
+      nameArray.forEach(searchName => {
+        if (objName.includes(searchName)) {
+          catagory = el.name;
+          result = value > el.threshold;
+        }
+      });
     });
     if (result === undefined) {
       return 'Not Found';
@@ -82,7 +84,7 @@ const App = () => {
       );
     }
   };
-  
+
   useEffect(() => {
     setResult(false);
     setLoading(true);
@@ -118,7 +120,7 @@ const App = () => {
             ) : (
               <View style={{flex: 3}}>
                 <Text style={styles.text}>
-                 Let's check your heart! insert values to start
+                  Let's check your heart! insert values to start
                 </Text>
               </View>
             )}
