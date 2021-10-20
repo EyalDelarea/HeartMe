@@ -13,6 +13,59 @@ import Form from './Components/Form/Form';
 import Header from './Components/Header/Header';
 import Result from './Components/Result/Result';
 
+
+/**
+   * Function to search the config file and return results to display
+   * NOTE !
+   * In order to be fogiving with user input,the strings are parsed to lowercase and remove "-" or ",".
+   * Time complexity should also be improved
+   * @param {*} name catagory nane
+   * @param {*} value user inputed value
+   * @returns
+   */
+ export const fetchDiagnosis = (name, value,config) => {
+  var result;
+  var catagory;
+
+  const data = config.bloodTestConfig;
+  //Parse user input
+  const nameArray = name
+    .toLocaleLowerCase()
+    .replace('-', ' ')
+    .replace(',', ' ')
+    .split(' ');
+
+  //iterate over our config
+  for (let i = 0; i < data.length; i++) {
+    const objName = data[i].name.toLocaleLowerCase();
+    //iterate over every user input string
+    for (let j = 0; j < nameArray.length; j++) {
+      const searchName = nameArray[j].toLocaleLowerCase();
+      if (searchName === '') continue;
+      if (objName.includes(searchName)) {
+        catagory = data[i].name;
+        result = value < data[i].threshold;
+        //cholesterol alone isn't enough
+        if (searchName !== 'cholesterol') {
+          return {
+            result: result,
+            catagory: catagory,
+          };
+        }
+      }
+    }
+  }
+  if (result === undefined) {
+    return 'Not Found';
+  } else {
+    //Edge case -> When we only type cholesterol alone,return the first result we had.
+    return {
+      result: result,
+      catagory: catagory,
+    };
+  }
+};
+
 const App = () => {
   const [loading, setLoading] = React.useState(true);
   const [result, setResult] = React.useState();
@@ -32,9 +85,9 @@ const App = () => {
   }, []);
 
   const submit = () => {
-    const userInputRegrex = /[a-zA-Z0-9'(),-:/!]$/;
+    const userInputRegrex = /^[A-Za-z0-9(), -:/!]+$/;
     if (userInputRegrex.test(testName)) {
-      setResult(fetchDiagnosis(testName, resultValue));
+      setResult(fetchDiagnosis(testName, resultValue,config));
     } else {
       ToastAndroid.showWithGravity(
         `Acceptable chars : 'A-Z', 'a-z', '0-9' and '(),-:/!'`,
@@ -44,57 +97,7 @@ const App = () => {
     }
   };
 
-  /**
-   * Function to search the config file and return results to display
-   * NOTE !
-   * In order to be fogiving with user input,the strings are parsed to lowercase and remove "-" or ",".
-   * Time complexity should also be improved
-   * @param {*} name catagory nane
-   * @param {*} value user inputed value
-   * @returns
-   */
-  const fetchDiagnosis = (name, value) => {
-    var result;
-    var catagory;
-
-    const data = config.bloodTestConfig;
-    //Parse user input
-    const nameArray = name
-      .toLocaleLowerCase()
-      .replace('-', ' ')
-      .replace(',', ' ')
-      .split(' ');
-
-    //iterate over our config
-    for (let i = 0; i < data.length; i++) {
-      const objName = data[i].name.toLocaleLowerCase();
-      //iterate over every user input string
-      for (let j = 0; j < nameArray.length; j++) {
-        const searchName = nameArray[j].toLocaleLowerCase();
-        if (searchName === '') continue;
-        if (objName.includes(searchName)) {
-          catagory = data[i].name;
-          result = value < data[i].threshold;
-          //cholesterol alone isn't enough
-          if (searchName !== 'cholesterol') {
-            return {
-              result: result,
-              catagory: catagory,
-            };
-          }
-        }
-      }
-    }
-    if (result === undefined) {
-      return 'Not Found';
-    } else {
-      //Edge case -> When we only type cholesterol alone,return the first result we had.
-      return {
-        result: result,
-        catagory: catagory,
-      };
-    }
-  };
+  
 
   const getBloodTestConfigFromServer = async () => {
     try {
