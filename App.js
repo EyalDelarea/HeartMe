@@ -17,7 +17,7 @@ import Result from './Components/Result/Result';
 /**
    * Function to search the config file and return results to display
    * NOTE !
-   * In order to be fogiving with user input,the strings are parsed to lowercase and remove "-" or ",".
+   * In order to be forgiving with user input,the strings are parsed to lowercase and remove "-" or ",".
    * Time complexity should also be improved
    * @param {*} name catagory nane
    * @param {*} value user inputed value

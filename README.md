@@ -7,7 +7,7 @@ This simple app will fetch config file for HelloHeart S3 bucket and according do
 * `npm run android`
 
 ### Download unsigned debug APK (no malware i promise ^^ )
-[Download here](https://drive.google.com/file/d/1C8T4O14e5K7xlaTAOHqeH542O-MEFAMu/view?usp=sharing)
+[Download here](https://drive.google.com/file/d/11ZT4u3hKKysBuHUhtWKk0Jius-hJVonI/view?usp=sharing)
 
 
 ### Objectives:
