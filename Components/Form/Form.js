@@ -41,10 +41,7 @@ const Form = ({
             onSubmit();
           }}
           style={styles.submitButton}>
-          <Text
-            style={{fontWeight:'bold'}}>
-            Submit
-          </Text>
+          <Text style={{fontWeight: 'bold'}}>Submit</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -61,13 +58,12 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 200,
     borderRadius: 30,
-    textAlign:'center'
+    textAlign: 'center',
   },
   header: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 20,
-    
   },
   contianer: {
     justifyContent: 'center',
@@ -78,6 +74,9 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     width: 100,
     padding: 10,
-    alignItems:'center'
+    alignItems: 'center',
+    marginTop:30
+    ,
+    marginBottom:30
   },
 });

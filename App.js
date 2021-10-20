@@ -15,6 +15,7 @@ import {
   Linking,
   TouchableOpacity,
   ToastAndroid,
+  RefreshControl,
 } from 'react-native';
 import Credit from './Components/Credit';
 import Form from './Components/Form/Form';
@@ -27,11 +28,22 @@ const App = () => {
   const [testName, setTestname] = React.useState('');
   const [resultValue, setResultValue] = React.useState('');
   const [config, setConfig] = React.useState({});
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+    await getBloodTestConfigFromServer();
+    setRefreshing(false);
+    //resets app state
+    setTestname('');
+    setResultValue('');
+    setResult('');
+  }, []);
 
   const submit = () => {
-    const userInputRegrex = /^[a-zA-Z0-9'(),-:/!]$/;
+    const userInputRegrex = /[a-zA-Z0-9'(),-:/!]$/;
     if (userInputRegrex.test(testName)) {
-      setResult({catagory: 'HDL Postive', result: true});
+      setResult(fetchDiagnosis(testName, resultValue));
     } else {
       ToastAndroid.showWithGravity(
         `Invalid Chars in the testname`,
@@ -40,7 +52,29 @@ const App = () => {
       );
     }
   };
-  const getBloodTestConfig = async () => {
+
+  const fetchDiagnosis = (name, value) => {
+    var result;
+    var catagory;
+    config.bloodTestConfig.forEach(el => {
+      const objName = el.name.toLowerCase();
+      const searchName = name.toLocaleLowerCase();
+      if (objName.includes(searchName)) {
+        catagory = el.name;
+        result = value > el.threshold;
+      }
+    });
+    if (result === undefined) {
+      return 'Not Found';
+    } else {
+      return {
+        result: result,
+        catagory: catagory,
+      };
+    }
+  };
+
+  const getBloodTestConfigFromServer = async () => {
     try {
       const res = await fetch(
         'https://s3.amazonaws.com/s3.helloheart.home.assignment/bloodTestConfig.json',
@@ -48,11 +82,11 @@ const App = () => {
 
       const json = await res.json();
       //Converts config into hashmap
-      const map = new Map();
-      json.bloodTestConfig.map(el => {
-        map.set(el.name, el.threshold);
-      });
-      setConfig(map);
+      // const map = new Map();
+      // json.bloodTestConfig.map(el => {
+      //   map.set(el.name, el.threshold);
+      // });
+      setConfig(json);
 
       setLoading(false);
     } catch (e) {
@@ -67,7 +101,7 @@ const App = () => {
   useEffect(() => {
     setResult(false);
     setLoading(true);
-    getBloodTestConfig();
+    getBloodTestConfigFromServer();
   }, []);
 
   return (
@@ -78,7 +112,11 @@ const App = () => {
           <Text style={styles.text}>Loading...</Text>
         </View>
       ) : (
-        <ScrollView contentContainerStyle={{flexGrow: 1}}>
+        <ScrollView
+          contentContainerStyle={{flexGrow: 1}}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
           <View style={styles.container}>
             <Header />
             <Form
@@ -117,7 +155,7 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'center',
-    marginTop:20
+    marginTop: 20,
   },
 });
 export default App;
