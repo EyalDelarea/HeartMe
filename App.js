@@ -1,19 +1,10 @@
 import React, {useEffect} from 'react';
-import {Node} from 'react';
 import {
-  SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  TextInput,
-  useColorScheme,
   View,
-  Image,
   ActivityIndicator,
-  Button,
-  Linking,
-  TouchableOpacity,
   ToastAndroid,
   RefreshControl,
 } from 'react-native';
@@ -46,8 +37,8 @@ const App = () => {
       setResult(fetchDiagnosis(testName, resultValue));
     } else {
       ToastAndroid.showWithGravity(
-        `Invalid Chars in the testname`,
-        ToastAndroid.SHORT,
+        `Acceptable chars : 'A-Z', 'a-z', '0-9' and '(),-:/!'`,
+        ToastAndroid.LONG,
         ToastAndroid.BOTTOM,
       );
     }
@@ -98,6 +89,7 @@ const App = () => {
       );
     }
   };
+  
   useEffect(() => {
     setResult(false);
     setLoading(true);
@@ -128,13 +120,12 @@ const App = () => {
             />
             {result ? (
               <View style={{flex: 3}}>
-                {/* To break into different componenet */}
                 <Result data={result} />
               </View>
             ) : (
               <View style={{flex: 3}}>
                 <Text style={styles.text}>
-                  Go Ahead, Press the submit button!
+                 Let's check your heart! insert values to start
                 </Text>
               </View>
             )}

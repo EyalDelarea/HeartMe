@@ -13,11 +13,22 @@ const Result = ({data}) => {
         </View>
       ) : (
         <View style={styles.container}>
-          <Text>{data.catagory}</Text>
+          <Text>Test Name : {data.catagory}</Text>
           {data.result ? (
-            <Image style={styles.image} source={happy} />
+          <View
+           style={styles.container}>
+          <Image style={styles.image} source={happy} />
+          <Text
+          style={styles.text}
+          >Looking Good!</Text>
+          </View>
           ) : (
+            <View
+            style={styles.container}
+            >
             <Image style={styles.image} source={sad} />
+            <Text>Looks like we need to improve this</Text>
+            </View>
           )}
         </View>
       )}
@@ -36,5 +47,10 @@ const styles = StyleSheet.create({
   image: {
     width: 150,
     height: 150,
+    margin: 20
   },
+  text:{
+    alignItems:'center'
+    ,textAlign:'center'
+  }
 });
